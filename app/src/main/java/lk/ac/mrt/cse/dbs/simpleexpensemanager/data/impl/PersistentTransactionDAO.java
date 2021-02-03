@@ -22,14 +22,14 @@ public class PersistentTransactionDAO implements TransactionDAO {
     public void logTransaction(Date date, String accountNo, ExpenseType expenseType, double amount) {
         String sql = "INSERT INTO TransactionLog (accountNo,expenseType,amount,date) VALUES (?,?,?,?)";
         SQLiteStatement statement = db.compileStatement(sql);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String strDate = formatter.format(date);
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+//        String strDate = formatter.format(date);
 
         statement.bindString(1,accountNo);
         statement.bindLong(2,(expenseType == ExpenseType.EXPENSE) ? 0 :1);
         statement.bindDouble(3,amount);
-        statement.bindString(4,strDate);
+        statement.bindString(4, String.valueOf(date.getTime()));
 
         statement.executeInsert();
     }
